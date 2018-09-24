@@ -16,7 +16,8 @@ class Calculator extends Component {
     super(props);
     this.state = {
       input: '',
-      line: ''
+      line: '',
+      error: false
     };
     this.handleInput = this.handleInput.bind(this);
     this.allClear = this.allClear.bind(this);
@@ -24,11 +25,13 @@ class Calculator extends Component {
     this.clearEntry = this.clearEntry.bind(this);
   }
 
-  getResult = () =>
-    this.setState({line: calculate(this.state.line)})
+  getResult = () => {
+    const [result, error] = calculate(this.state.line);
+    this.setState({line: result, error: error});
+    }
 
   handleInput = (e) =>
-    this.setState({
+    !this.state.error && this.setState({
       input: e.target.value,
       line: this.state.line + e.target.value
     })
@@ -36,11 +39,12 @@ class Calculator extends Component {
   allClear = () =>
     this.setState({
       input: '',
-      line: ''
+      line: '',
+      error: false
     })
 
   clearEntry = () =>
-    this.state.line.length > 0 &&
+    this.state.line.length > 0 && !isNaN(this.state.line.charAt(0)) &&
     this.setState({
     line: this.state.line.slice(0,-1)
     })
