@@ -51,7 +51,19 @@ class Calculator extends Component {
 
   render() {
     const line = this.state.line;
- 
+
+    const row123 = numbers.slice(0,3).map((number) =>  
+           <Button key={number.toString()} value={number} onClick={this.handleInput}/>
+          )
+    const row456 = numbers.slice(3,6).map((number) =>  
+           <Button key={number.toString()} value={number} onClick={this.handleInput}/>
+          )
+    const row789 = numbers.slice(6,9).map((number) =>  
+           <Button key={number.toString()} value={number} onClick={this.handleInput}/>
+          )
+    const row0 = numbers.slice(-1).map((number) =>  
+           <Button key={number.toString()} value={number} onClick={this.handleInput}/>
+          )    
     return (
       <div className="App">
       <div>
@@ -59,25 +71,28 @@ class Calculator extends Component {
           input={line}
         />
       </div>
-        <div>
-          <Button value={'AC'} onClick={this.allClear}/>
-          <Button value={'CE'} onClick={this.clearEntry}/>
-
-        {numbers.map((number) =>
-          <Button key={number.toString()} value={number} onClick={this.handleInput}/>
-        )}
-        </div>
-
-        <div>
+      <div className="power">
+        <Button value={'AC'} onClick={this.allClear}/>
+        <Button value={'CE'} onClick={this.clearEntry}/>
+      </div>
+      <div className="op">
         {operations.map((op) =>
           <Button key={op.toString()} value={op} onClick={this.handleInput}/>
         )}
-        </div>
-
+        </div> 
         <div>
+          {row123}
+        </div>
+        <div>
+          {row456}
+        </div>
+        <div>
+          {row789}
+        </div>
+        <div>
+          {row0}
           <Button value={'='} onClick={this.getResult}/>
-        </div>  
-
+        </div>
       </div>
 
     );
@@ -86,7 +101,7 @@ class Calculator extends Component {
 
 const Button = ({ 
   value, 
-  onClick 
+  onClick
 }) => 
   <button 
     type="button" 
