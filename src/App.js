@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import calculate from './util.js';
+import {numbers, operations} from './constants.js';
 import './App.css';
-
-const numbers = [0,1,2,3,4,5,6,7,8,9]
-const operations = ['+','-','x','/']
 
 class App extends Component {
   render() {
@@ -15,46 +14,66 @@ class App extends Component {
 class Calculator extends Component {
   constructor(props) {
     super(props);
-    this.state = {input: ''};
+    this.state = {
+      input: '',
+      line: ''
+    };
     this.handleInput = this.handleInput.bind(this);
-    this.calculate = this.calculate.bind(this)
+    this.allClear = this.allClear.bind(this);
+    this.getResult = this.getResult.bind(this);
+    this.clearEntry = this.clearEntry.bind(this);
   }
 
-  calculate = () =>
-    this.setState({input: 420})
+  getResult = () =>
+    this.setState({line: calculate(this.state.line)})
 
   handleInput = (e) =>
-    this.setState({input: e.target.value})
+    this.setState({
+      input: e.target.value,
+      line: this.state.line + e.target.value
+    })
+  
+  allClear = () =>
+    this.setState({
+      input: '',
+      line: ''
+    })
+
+  clearEntry = () =>
+    this.state.line.length > 0 &&
+    this.setState({
+    line: this.state.line.slice(0,-1)
+    })
 
   render() {
-    const input = this.state.input;
-    const equals = <Button value={'='} onClick={this.calculate}/>
-    const numButtons = numbers.map((number) =>
-      <div key={number.objectID}>
-        <Button value={number} onClick={this.handleInput}/>
-      </div>
-      )
-    const opButtons = operations.map((op) =>
-      <div key={op.objectID}>
-        <Button value={op} onClick={this.handleInput}/>
-      </div>
-      )
+    const line = this.state.line;
+ 
     return (
       <div className="App">
       <div>
         <Output 
-          input={input}
+          input={line}
         />
       </div>
-        <span>
-        {numButtons}
-        </span>
-        <span>
-        {opButtons}
-        </span>    
-        <span>
-        {equals}
-        </span>  
+        <div>
+          <Button value={'AC'} onClick={this.allClear}/>
+          <Button value={'CE'} onClick={this.clearEntry}/>
+
+        {numbers.map((number) =>
+          <Button key={number.toString()} value={number} onClick={this.handleInput}/>
+        )}
+        </div>
+
+        <div>
+        {operations.map((op) =>
+          <Button key={op.toString()} value={op} onClick={this.handleInput}/>
+        )}
+        </div>
+
+        <div>
+          <Button value={'='} onClick={this.getResult}/>
+        </div>  
+
       </div>
 
     );
@@ -73,7 +92,12 @@ const Button = ({
     {value}
   </button>
 
-const Output = ({ input }) =>
-  <textarea value={input} /> 
+const Output = ({ 
+  input
+}) =>
+  <textarea 
+    value={input}
+    readOnly
+    /> 
 
 export default App;
