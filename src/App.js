@@ -27,7 +27,11 @@ class Calculator extends Component {
 
   getResult = () => {
     const [result, error] = calculate(this.state.line);
-    this.setState({line: result, error: error});
+    this.setState(
+      { 
+        line: String(result), 
+        error: error
+      });
     }
 
   handleInput = (e) =>
@@ -43,11 +47,12 @@ class Calculator extends Component {
       error: false
     })
 
-  clearEntry = () =>
+  clearEntry = () => {
     this.state.line.length > 0 && !isNaN(this.state.line.charAt(0)) &&
     this.setState({
     line: this.state.line.slice(0,-1)
     })
+  }
 
   render() {
     const line = this.state.line;

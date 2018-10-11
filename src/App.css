@@ -17,6 +17,7 @@ textarea {
   outline: none;
   padding: 16px 8px;
   box-sizing: border-box;
+  text-align: right;
 }
 
 button {
