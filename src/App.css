@@ -28,6 +28,8 @@ button {
     text-decoration: none;
     display: inline-block;
     font-size: 28px;
+    width: 20%;
+    height: 25%;
 }
 
 .op > button:hover, button:hover {
@@ -46,7 +48,8 @@ button {
 }
 
 .op > button {
-    padding: 8px 14.5px;
+    padding: 5px 14.5px;
+    width: 15%;
 }
 
 .power > button:hover {

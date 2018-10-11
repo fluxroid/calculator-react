@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import calculate from './util.js';
-import {numbers, operations} from './constants.js';
+import {numbers, operations, keywords} from './constants.js';
 import './App.css';
 
 class App extends Component {
@@ -27,9 +27,10 @@ class Calculator extends Component {
 
   getResult = () => {
     const [result, error] = calculate(this.state.line);
-    this.setState(
+    const line = this.state.line;
+    line && this.setState(
       { 
-        line: String(result), 
+        line: result.toString(), 
         error: error
       });
     }
@@ -69,6 +70,10 @@ class Calculator extends Component {
     const row0 = numbers.slice(-1).map((number) =>  
            <Button key={number.toString()} value={number} onClick={this.handleInput}/>
           )    
+    const decimalButton = keywords.slice(0).map((key) =>
+            <Button key={key.toString()} value={key} onClick={this.handleInput}/>
+          )
+
     return (
       <div className="App">
       <div>
@@ -95,11 +100,11 @@ class Calculator extends Component {
           {row789}
         </div>
         <div>
+          {decimalButton}
           {row0}
           <Button value={'='} onClick={this.getResult}/>
         </div>
       </div>
-
     );
   }
 }
